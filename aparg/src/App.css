@@ -72,6 +72,11 @@ img {
   justify-content: center;
   align-items: center;
   color: aliceblue;
+  transition: 2s;
+  -webkit-transition: 2s;
+  -moz-transition: 2s;
+  -ms-transition: 2s;
+  -o-transition: 2s;
 }
 .done {
   width: 100%;

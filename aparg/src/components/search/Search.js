@@ -2,8 +2,8 @@ import React from 'react';
 
 export const Search = function(props){
     return(
-        <form onSubmit={props.getFirstImgUrls}> 
-            <input type='txt' placeholder='finde your photo' />
+        <form onSubmit={props.getSearchValues}> 
+            <input type='txt' placeholder='write like this: cat dog' />
             <input className='submit' type='submit' value='Search'/>
         </form>
     )

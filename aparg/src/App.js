@@ -11,21 +11,21 @@ class App extends Component {
       basket2: 'Second Result',
       draggedImg: {},
       draggedImgClassName: {},
-      completedImg: [],
+      droppedImg: [],
     }
-  /*get input values and work with flickr API
+  /*getSearchValues function is get input values and work with flickr API
     you can use promise.all but API didnt  give you
     special key, wich help you separate input results 
   */  
   getSearchValues = (e) => {
     e.preventDefault(); //Fix auto-update error
-    let value = e.target.elements[0].value; //get input values
-    if(value === '' || value === ' ') //check is value empti or not 
+    let value = e.target.elements[0].value; //Get input values
+    if(value === '' || value === ' ') //Check is value empti or is it have doble space 
     { alert('Please write someting')}
     else{ 
       // make the value array
       value = value.split(' ');
-      //get frist search resul in fetch metod 
+      //Finde frist search resul in fetch metod 
       fetch(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${API_KEY}&text=${value[0]}&max_upload_date=5&group_id=&format=json&nojsoncallback=1`)
       .then(response => response.json())
       .then((data) => {
@@ -35,7 +35,7 @@ class App extends Component {
         var imgList = data.map((pir) => {
             let imgs = `https://farm${pir.farm}.staticflickr.com/${pir.server}/${pir.id}_${pir.secret}.jpg` //get the img urls
             return(
-                <img src={imgs} alt={pir.farm}/>  //create img teg with api photos
+                <img src={imgs} alt={pir.farm}/>  //create img teg with result photos
             )
           });
         // cahnge state properties     
@@ -44,7 +44,7 @@ class App extends Component {
           basket1: value[0],
         })
       });
-      //get second search resul in fetch metod
+      //Finde second search resul in fetch metod
       fetch(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${API_KEY}&text=${value[1]}&max_upload_date=5&group_id=&format=json&nojsoncallback=1`)
       .then(response => response.json())
       .then((data) => {
@@ -54,7 +54,7 @@ class App extends Component {
         var imgList = data.map((pir) => {
             let imgs = `https://farm${pir.farm}.staticflickr.com/${pir.server}/${pir.id}_${pir.secret}.jpg` //get the img urls
             return(
-                <img src={imgs} alt={pir.farm}/>//create img teg with api photos
+                <img src={imgs} alt={pir.farm}/>//create img teg with result photos
             )
           });
         // change state properties     
@@ -65,7 +65,7 @@ class App extends Component {
     }) 
   }
 }
-// get drag img in state
+// Put dragging img in state
 onDrag = (event, img) => {
   event.preventDefault(); //Fix auto-update error
   this.setState({
@@ -73,17 +73,20 @@ onDrag = (event, img) => {
     draggedImgClassName: event.target.className
   });
 }
-// put img in complete
+// Put img in dropping div
 onDrop = () => {
-  const { completedImg, draggedImg, firstImgUrls ,secondImgUrls} = this.state;
+  const { droppedImg, draggedImg, firstImgUrls ,secondImgUrls} = this.state;
   this.setState({
-    completedImg: [...completedImg, draggedImg],
+    droppedImg: [...droppedImg, draggedImg],
     firstImgUrls: firstImgUrls.filter(i =>i.props.src !== draggedImg),
     secondImgUrls: secondImgUrls.filter(i => i.props.src !== draggedImg),
     draggedImg: {},
   })
 }
   render() {
+    /*Check what  search result is dragging
+      and put it in right brecket
+    */
       if(this.state.draggedImgClassName === 'first'){
             var  onDragOverFirst = function(event ){
             event.preventDefault();//Fix auto-update error
@@ -163,7 +166,7 @@ onDrop = () => {
               </div>
         </div>
             <div className='done'>
-                {this.state.completedImg.map((i, index) =>
+                {this.state.droppedImg.map((i, index) =>
                   <div key={index}>
                     <img src={i} alt={i.index}/>
                   </div>
