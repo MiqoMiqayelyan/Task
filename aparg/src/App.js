@@ -69,13 +69,6 @@ onDrag = (event, img) => {
   });
   console.log(this.state.draggedImgClassName + " img classname")
 }
-// check if img over basket
-// onDragOver = (event ) => {
-//   event.preventDefault();//Fix auto-update error
-//   if(this.state.draggedImgClassName === 'first'){
-//     return event.target.className === "basket1" 
-//   }
-// }
 // put img in complete
 onDrop = (event) => {
   const { completedImg, draggedImg, firstImgUrls ,secondImgUrls} = this.state;
@@ -90,8 +83,8 @@ onDrop = (event) => {
       if(this.state.draggedImgClassName === 'first'){
               var  onDragOverFirst = function(event ){
                 event.preventDefault();//Fix auto-update error
-            }
-      }else {
+                }
+            }else {
         var onDragOverSecond = function(event){
           event.preventDefault();//Fix auto-update error
         }
@@ -145,12 +138,22 @@ onDrop = (event) => {
       >
         <div className="baskets">
               <div className="basket1"  
-                onDragOver={event => onDragOverFirst(event)}
+                onDragOver={event =>{
+                      if(this.state.draggedImgClassName === 'first'){
+                        onDragOverFirst(event)
+                      }
+                  }
+                }  
               >
                   {this.state.basket1}
               </div>
               <div className="basket2"
-                onDragOver={event => onDragOverSecond(event)}
+                onDragOver={event =>{
+                      if(this.state.draggedImgClassName === 'second'){
+                        onDragOverSecond(event)
+                      }
+                    }
+                  } 
                 >
                 {this.state.basket2}
               </div>
