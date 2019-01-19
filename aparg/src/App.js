@@ -13,8 +13,11 @@ class App extends Component {
       draggedImgClassName: {},
       completedImg: [],
     }
-
-  getFirstImgUrls = (e) => {
+  /*get input values and work with flickr API
+    you can use promise.all but API didnt  give you
+    special key, wich help you separate input results 
+  */  
+  getSearchValues = (e) => {
     e.preventDefault(); //Fix auto-update error
     let value = e.target.elements[0].value; //get input values
     if(value === '' || value === ' ') //check is value empti or not 
@@ -27,16 +30,17 @@ class App extends Component {
       .then(response => response.json())
       .then((data) => {
         //maping data urls
-        data.photos.photo.length = 5;
-        var newList = data.photos.photo.map((pir) => {
-            let imgs=  `https://farm${pir.farm}.staticflickr.com/${pir.server}/${pir.id}_${pir.secret}.jpg` //get the img urls
+        data = data.photos.photo
+        data.length = 5;
+        var imgList = data.map((pir) => {
+            let imgs = `https://farm${pir.farm}.staticflickr.com/${pir.server}/${pir.id}_${pir.secret}.jpg` //get the img urls
             return(
                 <img src={imgs} alt={pir.farm}/>  //create img teg with api photos
             )
           });
         // cahnge state properties     
         this.setState({
-          firstImgUrls: newList,
+          firstImgUrls: imgList,
           basket1: value[0],
         })
       });
@@ -45,16 +49,17 @@ class App extends Component {
       .then(response => response.json())
       .then((data) => {
         //maping data urls
-        data.photos.photo.length = 5;
-        var newList = data.photos.photo.map((pir) => {
-            let imgs=  `https://farm${pir.farm}.staticflickr.com/${pir.server}/${pir.id}_${pir.secret}.jpg` //get the img urls
+        data = data.photos.photo
+        data.length = 5;
+        var imgList = data.map((pir) => {
+            let imgs = `https://farm${pir.farm}.staticflickr.com/${pir.server}/${pir.id}_${pir.secret}.jpg` //get the img urls
             return(
                 <img src={imgs} alt={pir.farm}/>//create img teg with api photos
             )
           });
         // change state properties     
         this.setState({
-          secondImgUrls: newList,
+          secondImgUrls: imgList,
           basket2: value[1],
         })
     }) 
@@ -67,10 +72,9 @@ onDrag = (event, img) => {
     draggedImg: img,
     draggedImgClassName: event.target.className
   });
-  console.log(this.state.draggedImgClassName + " img classname")
 }
 // put img in complete
-onDrop = (event) => {
+onDrop = () => {
   const { completedImg, draggedImg, firstImgUrls ,secondImgUrls} = this.state;
   this.setState({
     completedImg: [...completedImg, draggedImg],
@@ -81,11 +85,11 @@ onDrop = (event) => {
 }
   render() {
       if(this.state.draggedImgClassName === 'first'){
-              var  onDragOverFirst = function(event ){
-                event.preventDefault();//Fix auto-update error
-                }
-            }else {
-        var onDragOverSecond = function(event){
+            var  onDragOverFirst = function(event ){
+            event.preventDefault();//Fix auto-update error
+          }
+      }else{
+          var onDragOverSecond = function(event){
           event.preventDefault();//Fix auto-update error
         }
       }
@@ -93,7 +97,7 @@ onDrop = (event) => {
     return (
       <div className="App">
         <Search 
-        getFirstImgUrls = {this.getFirstImgUrls}
+        getSearchValues = {this.getSearchValues}
         />
         <div className="img-list">
           <div className='first-serch-result'>
