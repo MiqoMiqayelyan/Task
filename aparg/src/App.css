@@ -2,13 +2,19 @@ li {
   list-style-type: none;
 }
 .App {
+  background-color: rgb(230, 218, 218);
   border: 1px solid rgb(120, 120, 206);
+  border-radius:8px;
   padding: 10px;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  -webkit-border-radius:8px;
+  -moz-border-radius:8px;
+  -ms-border-radius:8px;
+  -o-border-radius:8px;
 }
 form {
   width: 100%;
@@ -17,11 +23,20 @@ form input {
   padding: 10px;
   font-size: 20px;
   width: 80%;
+  outline: none;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
 }
 form .submit {
   font-size: 20px;
   padding: 10px;
   width: 15%;
+  background-color: rgb(31, 80, 218);
+  color: #fff;
+  cursor: pointer;
 }
 
 img {
@@ -34,10 +49,8 @@ img {
   width: 100%;
   justify-content: center;
   align-items: center;
-  height: 300px;
-}
-.img-list ul {
-  display: flex;
+  height: auto;
+  margin-top: 10px;
 }
 .baskets {
   width: 100%;
@@ -57,4 +70,23 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
+  color: aliceblue;
+}
+.done {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+.done div {
+  margin: 7px;
+}
+.first-serch-result img {
+  margin: 5px;
+  border: 2px solid #1757a0;
+  cursor: pointer;
+}
+
+.first-serch-result:active {
+  opacity: 0;
 }
